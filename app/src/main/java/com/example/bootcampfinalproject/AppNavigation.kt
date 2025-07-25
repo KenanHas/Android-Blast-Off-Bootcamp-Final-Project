@@ -39,11 +39,12 @@ fun AppNavigation() {
             arguments = listOf(navArgument("difficulty") {
                 type = NavType.StringType
                 defaultValue = "EASY" // Varsayılan değer
-            })
+            }, navArgument("userName") { type = NavType.StringType })
         ) { backStackEntry ->
             val difficulty = backStackEntry.arguments?.getString("difficulty") ?: "EASY"
+            val userName = backStackEntry.arguments?.getString("userName") ?: ""
             // GameScreen'e zorluk seviyesini iletiyoruz
-            GameScreen(navController = navController, difficulty = difficulty)
+            GameScreen(navController = navController, difficulty = difficulty, userName = userName)
         }
     }
 }

@@ -7,10 +7,10 @@ sealed class Screen(val route: String) {
     object Settings : Screen("settings_screen")
     object Score : Screen("score_screen")
     // Game ekranını argüman alacak şekilde güncelliyoruz
-    object Game : Screen("game_screen/{difficulty}") {
+    object Game : Screen("game_screen/{difficulty}/{userName}") {
         // Bu fonksiyon, rotayı argümanla birlikte oluşturmak için kullanılır
-        fun createRoute(difficulty: String): String {
-            return "game_screen/$difficulty"
+        fun createRoute(difficulty: String, userName: String): String {
+            return "game_screen/$difficulty/$userName"
         }
     }
 }

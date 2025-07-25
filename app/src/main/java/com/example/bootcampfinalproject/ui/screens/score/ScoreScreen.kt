@@ -116,8 +116,14 @@ fun ScoreItemUi(scoreItem: ScoreItem) {
 
             Text(
                 text = scoreItem.score.toString(),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier,
                 textAlign = TextAlign.Center
+            )
+
+            Text(
+            text = scoreItem.userName.toString(),
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
             )
         }
     }

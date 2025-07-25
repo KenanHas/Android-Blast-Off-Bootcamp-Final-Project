@@ -29,8 +29,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,23 +45,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @Composable
-fun GameScreen(navController: NavController, difficulty: String){
+fun GameScreen(navController: NavController, difficulty: String, userName: String){
     Scaffold { innerPadding->
         Column (
             modifier = Modifier
                 .padding(innerPadding)
                 .background(color = Color.Black),
         ){
-            GamePageUi(navController, difficulty)
+            GamePageUi(navController, difficulty, userName = userName)
         }
     }
 }
 
 @Composable
-fun GamePageUi(navController: NavController, difficulty: String, // Zorluk seviyesini parametre olarak alıyoruz
-               viewModel: MemoryGameViewModel = viewModel(factory = MemoryGameViewModel.Factory(difficulty)) // ViewModel'i factory ile oluşturuyoruz
+fun GamePageUi(navController: NavController, difficulty: String,
+               viewModel: MemoryGameViewModel = viewModel(factory = MemoryGameViewModel.Factory(difficulty)),
+               userName: String
 ){
-    val cards by remember { mutableStateOf(viewModel.cards) }
     val score by viewModel.score
     val timeLeft by viewModel.timeLeft
     val gameEnded by viewModel.gameEnded
@@ -113,7 +111,7 @@ fun GamePageUi(navController: NavController, difficulty: String, // Zorluk seviy
             }
         } else {
             // Oyun sonu mesajı
-            GameEndScreen(gameWon = gameWon, score = score, onPlayAgain = { viewModel.resetGame() })
+            GameEndScreen(gameWon = gameWon, score = score, userName = userName, onPlayAgain = { viewModel.resetGame() })
         }
     }
 }
@@ -180,7 +178,7 @@ fun MemoryCard(card: CardItem, onCardClick: (CardItem) -> Unit) {
 
 // Oyun sonu ekranı Composable'ı
 @Composable
-fun GameEndScreen(gameWon: Boolean, score: Int, onPlayAgain: () -> Unit) {
+fun GameEndScreen(gameWon: Boolean, score: Int, userName: String, onPlayAgain: () -> Unit) {
 
     val db = LocalAppDatabase.current
     val userDao = db.scoreDao()
@@ -223,9 +221,8 @@ fun GameEndScreen(gameWon: Boolean, score: Int, onPlayAgain: () -> Unit) {
         }
         LaunchedEffect(Unit) {
             withContext(Dispatchers.IO) {
-                userDao.insertScore(ScoreItem(userName = "DENEME", score = score))
+                userDao.insertScore(ScoreItem(userName = userName, score = score))
             }
         }
-
     }
 }

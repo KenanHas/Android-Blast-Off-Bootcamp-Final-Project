@@ -1,17 +1,13 @@
 package com.example.bootcampfinalproject.ui.components
 
-import androidx.compose.foundation.layout.offset
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.sp // sp birimi için
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun TitleThinText(
@@ -31,7 +27,7 @@ fun TitleThinText(
 }
 
 @Composable
-fun StartPageButton(modifier:Modifier = Modifier, action:()->Unit, buttonText: String){
+fun StartPageButton(modifier:Modifier = Modifier, action: ()->Unit, buttonText: String){
 
     Button(
         onClick = {
