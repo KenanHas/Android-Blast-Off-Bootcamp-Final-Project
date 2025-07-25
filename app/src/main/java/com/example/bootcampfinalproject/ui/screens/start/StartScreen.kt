@@ -1,4 +1,4 @@
-package com.example.bootcampfinalproject.ui.screens
+package com.example.bootcampfinalproject.ui.screens.start
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween

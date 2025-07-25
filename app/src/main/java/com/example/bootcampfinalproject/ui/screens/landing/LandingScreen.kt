@@ -1,4 +1,4 @@
-package com.example.bootcampfinalproject.ui.screens
+package com.example.bootcampfinalproject.ui.screens.landing
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

@@ -1,4 +1,4 @@
-package com.example.bootcampfinalproject.ui.screens
+package com.example.bootcampfinalproject.ui.screens.game
 
 import MemoryGameViewModel
 import androidx.compose.animation.animateColorAsState
@@ -6,7 +6,17 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -16,7 +26,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,6 +41,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.bootcampfinalproject.CardItem
+import com.example.bootcampfinalproject.ScoreItem
+import com.example.bootcampfinalproject.data.local.database.LocalAppDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun GameScreen(navController: NavController, difficulty: String){
@@ -163,6 +181,9 @@ fun MemoryCard(card: CardItem, onCardClick: (CardItem) -> Unit) {
 // Oyun sonu ekranı Composable'ı
 @Composable
 fun GameEndScreen(gameWon: Boolean, score: Int, onPlayAgain: () -> Unit) {
+
+    val db = LocalAppDatabase.current
+    val userDao = db.scoreDao()
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -200,5 +221,11 @@ fun GameEndScreen(gameWon: Boolean, score: Int, onPlayAgain: () -> Unit) {
         Button(onClick = onPlayAgain) {
             Text(text = "Tekrar Oyna")
         }
+        LaunchedEffect(Unit) {
+            withContext(Dispatchers.IO) {
+                userDao.insertScore(ScoreItem(userName = "DENEME", score = score))
+            }
+        }
+
     }
 }

@@ -1,4 +1,4 @@
-package com.example.bootcampfinalproject.ui.screens
+package com.example.bootcampfinalproject.ui.screens.score
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +17,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -27,7 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.bootcampfinalproject.ScoreItem
+import com.example.bootcampfinalproject.data.local.database.LocalAppDatabase
 import com.example.bootcampfinalproject.ui.components.TitleThinText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun ScoreScreen(navController: NavController){
@@ -45,7 +49,16 @@ fun ScoreScreen(navController: NavController){
 @Composable
 fun ScorePageUi(navController: NavController, modifier: Modifier = Modifier, titleFirst: String, titleSecond:String){
 
-    val scoreList = remember { mutableStateOf(arrayListOf(ScoreItem(1, "Kenan", 80))) }
+    var scoreList = remember { mutableStateOf(emptyList<ScoreItem>()) }
+    val db = LocalAppDatabase.current
+    val userDao = db.scoreDao() // DAO'ya erişim
+
+    LaunchedEffect(Unit) {
+        // Uygulama ilk yüklendiğinde kullanıcıları getir.
+        withContext(Dispatchers.IO) {
+            scoreList.value = userDao.getAllScores()
+        }
+    }
 
     Column (
         modifier = modifier
@@ -87,7 +100,7 @@ fun ScoreList(items: List<ScoreItem>) {
 fun ScoreItemUi(scoreItem: ScoreItem) {
     Card(
         modifier = Modifier
-            .fillMaxWidth().height(70.dp),
+            .fillMaxWidth().height(70.dp).padding(top = 10.dp),
     ) {
         Row (
             modifier = Modifier.fillMaxSize(),

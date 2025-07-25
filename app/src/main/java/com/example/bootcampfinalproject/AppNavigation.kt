@@ -6,11 +6,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.bootcampfinalproject.ui.screens.GameScreen
-import com.example.bootcampfinalproject.ui.screens.LandingScreen
-import com.example.bootcampfinalproject.ui.screens.ScoreScreen
-import com.example.bootcampfinalproject.ui.screens.SettingsScreen
-import com.example.bootcampfinalproject.ui.screens.StartScreen
+import com.example.bootcampfinalproject.ui.screens.game.GameScreen
+import com.example.bootcampfinalproject.ui.screens.landing.LandingScreen
+import com.example.bootcampfinalproject.ui.screens.score.ScoreScreen
+import com.example.bootcampfinalproject.ui.screens.settings.SettingsScreen
+import com.example.bootcampfinalproject.ui.screens.start.StartScreen
 
 @Composable
 fun AppNavigation() {

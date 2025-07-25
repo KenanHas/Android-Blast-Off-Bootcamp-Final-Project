@@ -1,4 +1,4 @@
-package com.example.bootcampfinalproject.ui.screens
+package com.example.bootcampfinalproject.ui.screens.settings
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.bootcampfinalproject.ui.components.StartPageButton
 import com.example.bootcampfinalproject.ui.components.TitleThinText
+import com.example.bootcampfinalproject.ui.screens.start.SegmentedSelectionButton
 
 @Composable
 fun SettingsScreen(navController: NavController){
