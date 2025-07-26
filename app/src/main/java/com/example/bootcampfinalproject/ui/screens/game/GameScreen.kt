@@ -64,6 +64,7 @@ fun GamePageUi(navController: NavController, difficulty: String,
 ){
     val score by viewModel.score
     val timeLeft by viewModel.timeLeft
+    val totalTime by viewModel.totalTime
     val gameEnded by viewModel.gameEnded
     val gameWon by viewModel.gameWon
 
@@ -111,7 +112,7 @@ fun GamePageUi(navController: NavController, difficulty: String,
             }
         } else {
             // Oyun sonu mesajı
-            GameEndScreen(gameWon = gameWon, score = score, userName = userName, onPlayAgain = { viewModel.resetGame() })
+            GameEndScreen(gameWon = gameWon, score = score, userName = userName, difficulty = difficulty, time = totalTime,onPlayAgain = { viewModel.resetGame() })
         }
     }
 }
@@ -178,7 +179,7 @@ fun MemoryCard(card: CardItem, onCardClick: (CardItem) -> Unit) {
 
 // Oyun sonu ekranı Composable'ı
 @Composable
-fun GameEndScreen(gameWon: Boolean, score: Int, userName: String, onPlayAgain: () -> Unit) {
+fun GameEndScreen(gameWon: Boolean, score: Int, userName: String, difficulty: String, time: Int, onPlayAgain: () -> Unit) {
 
     val db = LocalAppDatabase.current
     val userDao = db.scoreDao()
@@ -221,7 +222,7 @@ fun GameEndScreen(gameWon: Boolean, score: Int, userName: String, onPlayAgain: (
         }
         LaunchedEffect(Unit) {
             withContext(Dispatchers.IO) {
-                userDao.insertScore(ScoreItem(userName = userName, score = score))
+                userDao.insertScore(ScoreItem(userName = userName, score = score, time = time, category = difficulty))
             }
         }
     }

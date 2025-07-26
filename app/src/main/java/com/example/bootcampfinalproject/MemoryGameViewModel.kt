@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.bootcampfinalproject.CardItem
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Random
 
 // ViewModel'i güncelliyoruz
 class MemoryGameViewModel(private val difficulty: String) : ViewModel() {
@@ -35,7 +35,7 @@ class MemoryGameViewModel(private val difficulty: String) : ViewModel() {
 
     private val _gameWon = mutableStateOf(false)
     val gameWon: State<Boolean> = _gameWon
-
+    val totalTime = mutableStateOf(0)
     init {
         startGame()
         startTimer()
@@ -70,6 +70,7 @@ class MemoryGameViewModel(private val difficulty: String) : ViewModel() {
         _cards.addAll(generateCards())
         _score.value = 0
         _timeLeft.value = 60
+        totalTime.value = _timeLeft.value
         _selectedCards.clear()
         _gameEnded.value = false
         _gameWon.value = false

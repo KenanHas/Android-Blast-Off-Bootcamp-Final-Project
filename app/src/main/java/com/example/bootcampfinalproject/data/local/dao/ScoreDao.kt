@@ -1,7 +1,6 @@
 package com.example.bootcampfinalproject.data.local.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.bootcampfinalproject.ScoreItem
@@ -14,7 +13,7 @@ interface ScoreDao {
     @Insert
     fun insertScore(score: ScoreItem)
 
-    @Delete
-    fun delete(user: ScoreItem)
+    @Query("DELETE FROM scores WHERE scoreId = :scoreId")
+    suspend fun deleteScoreById(scoreId: Int)
 
 }

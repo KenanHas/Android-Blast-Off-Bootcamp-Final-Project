@@ -11,5 +11,9 @@ data class ScoreItem(
     @ColumnInfo(name = "userName")
     val userName: String,
     @ColumnInfo(name = "score")
-    val score: Int
+    val score: Int,
+    @ColumnInfo(name = "time")
+    val time: Int,
+    @ColumnInfo(name = "category")
+    val category: String
 )
