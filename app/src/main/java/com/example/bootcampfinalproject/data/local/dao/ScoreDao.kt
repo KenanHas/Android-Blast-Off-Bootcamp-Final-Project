@@ -16,4 +16,7 @@ interface ScoreDao {
     @Query("DELETE FROM scores WHERE scoreId = :scoreId")
     suspend fun deleteScoreById(scoreId: Int)
 
+    @Query("DELETE FROM scores")
+    suspend fun deleteAllScores()
+
 }

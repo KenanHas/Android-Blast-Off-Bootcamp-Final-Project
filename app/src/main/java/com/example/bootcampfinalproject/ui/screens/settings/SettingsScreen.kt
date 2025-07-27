@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,9 +20,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.bootcampfinalproject.data.local.database.LocalAppDatabase
 import com.example.bootcampfinalproject.ui.components.StartPageButton
 import com.example.bootcampfinalproject.ui.components.TitleThinText
 import com.example.bootcampfinalproject.ui.screens.start.SegmentedSelectionButton
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun SettingsScreen(navController: NavController){
@@ -41,6 +46,10 @@ fun SettingsScreen(navController: NavController){
 fun SettingsPageUi(navController: NavController, modifier: Modifier = Modifier, titleFirst: String, titleSecond:String) {
     var selectedMode by remember { mutableStateOf("LIGHT") }
     var open by remember { mutableStateOf("OPEN") }
+
+    val db = LocalAppDatabase.current
+    val userDao = db.scoreDao()
+    val coroutineScope = rememberCoroutineScope()
 
     Column (modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -81,7 +90,13 @@ fun SettingsPageUi(navController: NavController, modifier: Modifier = Modifier, 
         }
 
         Column {
-            StartPageButton(modifier =  Modifier.padding(bottom = 20.dp), action = {}, buttonText = "Skorları Temizle")
+            StartPageButton(modifier =  Modifier.padding(bottom = 20.dp), action = {
+                coroutineScope.launch {
+                    withContext(Dispatchers.IO) {
+                        userDao.deleteAllScores()
+                    }
+                }
+            }, buttonText = "Skorları Temizle")
             StartPageButton(modifier =  Modifier.padding(bottom = 20.dp), action = {navController.navigateUp()}, buttonText = "Anasayfaya Dön")
         }
 
