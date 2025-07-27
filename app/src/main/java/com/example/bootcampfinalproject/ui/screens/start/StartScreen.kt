@@ -35,11 +35,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.bootcampfinalproject.Screen
 import com.example.bootcampfinalproject.ui.components.StartPageButton
-import com.example.bootcampfinalproject.ui.components.TitleThinText
+import com.example.bootcampfinalproject.ui.components.TopBarDesign
 
 @Composable
 fun StartScreen(navController: NavController){
@@ -49,13 +48,13 @@ fun StartScreen(navController: NavController){
             .padding(innerPadding)
             .background(color = Color.Black)
         ){
-            StartPageUi(navController, modifier = Modifier, "Oyun", "Kur")
+            StartPageUi(navController, modifier = Modifier, "Oyun Kur")
         }
     }
 }
 
 @Composable
-fun StartPageUi(navController: NavController, modifier: Modifier = Modifier, titleFirst: String, titleSecond:String){
+fun StartPageUi(navController: NavController, modifier: Modifier = Modifier, title: String){
     var selectedDifficulty by remember { mutableStateOf("EASY") }
     var userName by remember { mutableStateOf("") }
     val context = LocalContext.current
@@ -68,18 +67,7 @@ fun StartPageUi(navController: NavController, modifier: Modifier = Modifier, tit
         verticalArrangement = Arrangement.SpaceEvenly
     ){
         Column (horizontalAlignment = Alignment.CenterHorizontally){
-            TitleThinText(
-                text = titleFirst,
-                color = Color.Green,
-                fontSize = 40.sp
-            )
-
-            TitleThinText(
-                text = titleSecond,
-                modifier = Modifier.offset(y = 7.dp),
-                color = Color.Green,
-                fontSize = 40.sp
-            )
+            TopBarDesign(navController, title, true)
         }
 
         Column (

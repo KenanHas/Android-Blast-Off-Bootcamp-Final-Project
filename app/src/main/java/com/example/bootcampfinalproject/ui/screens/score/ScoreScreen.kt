@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -38,7 +37,7 @@ import androidx.navigation.NavController
 import com.example.bootcampfinalproject.R
 import com.example.bootcampfinalproject.ScoreItem
 import com.example.bootcampfinalproject.data.local.database.LocalAppDatabase
-import com.example.bootcampfinalproject.ui.components.TitleThinText
+import com.example.bootcampfinalproject.ui.components.TopBarDesign
 import com.example.bootcampfinalproject.ui.theme.DARKGREEN
 import com.example.bootcampfinalproject.ui.theme.LIGHTGREEN
 import com.example.bootcampfinalproject.ui.theme.YELLOW
@@ -93,18 +92,9 @@ fun ScorePageUi(
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            TitleThinText(
-                text = titleFirst,
-                color = Color.Green,
-                fontSize = 40.sp
-            )
 
-            TitleThinText(
-                text = titleSecond,
-                modifier = Modifier.offset(y = 7.dp),
-                color = Color.Green,
-                fontSize = 40.sp
-            )
+            TopBarDesign(navController, "Skor Tablosu")
+
             Spacer(modifier = Modifier.height(30.dp))
         }
 

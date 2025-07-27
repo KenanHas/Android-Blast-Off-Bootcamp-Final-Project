@@ -41,6 +41,7 @@ import androidx.navigation.NavController
 import com.example.bootcampfinalproject.CardItem
 import com.example.bootcampfinalproject.ScoreItem
 import com.example.bootcampfinalproject.data.local.database.LocalAppDatabase
+import com.example.bootcampfinalproject.ui.components.TopBarDesign
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -72,13 +73,13 @@ fun GamePageUi(navController: NavController, difficulty: String,
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(10.dp)
     ) {
 
-    // Skor ve Süre
+        TopBarDesign(navController, "")
+
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {

@@ -18,11 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.bootcampfinalproject.data.local.database.LocalAppDatabase
 import com.example.bootcampfinalproject.ui.components.StartPageButton
-import com.example.bootcampfinalproject.ui.components.TitleThinText
+import com.example.bootcampfinalproject.ui.components.TopBarDesign
 import com.example.bootcampfinalproject.ui.screens.start.SegmentedSelectionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,13 +36,13 @@ fun SettingsScreen(navController: NavController){
             .padding(innerPadding)
             .background(color = Color.Black),
         ){
-            SettingsPageUi(navController, modifier = Modifier, titleFirst = "Ayarlar", titleSecond = "Sayfası")
+            SettingsPageUi(navController, modifier = Modifier, title = "Ayarlar Sayfası")
         }
     }
 }
 
 @Composable
-fun SettingsPageUi(navController: NavController, modifier: Modifier = Modifier, titleFirst: String, titleSecond:String) {
+fun SettingsPageUi(navController: NavController, modifier: Modifier = Modifier, title: String) {
     var selectedMode by remember { mutableStateOf("LIGHT") }
     var open by remember { mutableStateOf("OPEN") }
 
@@ -55,18 +54,8 @@ fun SettingsPageUi(navController: NavController, modifier: Modifier = Modifier, 
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ){
-        Column {
-            TitleThinText(
-                text = titleFirst,
-                color = Color.Green,
-                fontSize = 40.sp
-            )
-
-            TitleThinText(
-                text = titleSecond,
-                color = Color.Green,
-                fontSize = 40.sp
-            )
+        Column (modifier = modifier.padding(top = 20.dp)){
+            TopBarDesign(navController, title, true)
         }
 
         Column {
