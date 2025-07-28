@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,9 +39,6 @@ import com.example.bootcampfinalproject.R
 import com.example.bootcampfinalproject.ScoreItem
 import com.example.bootcampfinalproject.data.local.database.LocalAppDatabase
 import com.example.bootcampfinalproject.ui.components.TopBarDesign
-import com.example.bootcampfinalproject.ui.theme.DARKGREEN
-import com.example.bootcampfinalproject.ui.theme.LIGHTGREEN
-import com.example.bootcampfinalproject.ui.theme.YELLOW
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -75,7 +73,8 @@ fun ScorePageUi(
 
     val fetchScores: suspend () -> Unit = {
         withContext(Dispatchers.IO) {
-            scoreList.value = userDao.getAllScores()
+            val scores = userDao.getAllScores()
+            scoreList.value = scores.sortedByDescending { it.score }
         }
     }
 
@@ -94,7 +93,7 @@ fun ScorePageUi(
 
             TopBarDesign(navController, "Skor Tablosu")
 
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(20.dp))
         }
 
         ScoreList(scoreList.value, fetchScores)
@@ -122,16 +121,16 @@ fun ScoreItemUi(scoreItem: ScoreItem, index: Int, onScoreDeleted: suspend () -> 
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
-            .padding(top = 10.dp),
+            .padding(bottom = 10.dp),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = LIGHTGREEN)
+                .background(color = MaterialTheme.colorScheme.primary)
                 .padding(10.dp)
                 .border(
                     1.dp,
-                    DARKGREEN, shape = CutCornerShape(10.dp)
+                    MaterialTheme.colorScheme.secondary, shape = CutCornerShape(10.dp)
                 )
         ) {
             Text(
@@ -139,7 +138,7 @@ fun ScoreItemUi(scoreItem: ScoreItem, index: Int, onScoreDeleted: suspend () -> 
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .padding(10.dp)
-                    .background(YELLOW, shape = CutCornerShape(50.dp))
+                    .background(MaterialTheme.colorScheme.secondary.copy(0.4f), shape = CutCornerShape(50.dp))
                     .fillMaxHeight()
                     .width(50.dp)
                     .wrapContentHeight(align = Alignment.CenterVertically)
@@ -164,7 +163,7 @@ fun ScoreItemUi(scoreItem: ScoreItem, index: Int, onScoreDeleted: suspend () -> 
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = scoreItem.userName,
-                        fontSize = 16.sp, // Adjust text size
+                        fontSize = 16.sp,
                         color = Color.DarkGray
                     )
                 }
@@ -178,21 +177,31 @@ fun ScoreItemUi(scoreItem: ScoreItem, index: Int, onScoreDeleted: suspend () -> 
                         contentDescription = "score",
                         tint = Color.White
                     )
+
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "${scoreItem.score} score",
+                        text = "${scoreItem.score} puan",
                         fontSize = 14.sp,
                         color = Color.DarkGray
                     )
+
                     Spacer(modifier = Modifier.width(8.dp))
                     Icon(
                         painter = painterResource(id = R.drawable.ic_timer),
                         contentDescription = "timer",
                         tint = Color.White
                     )
+
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "${scoreItem.time} sec.",
+                        text = "${scoreItem.time} sn.",
+                        fontSize = 14.sp,
+                        color = Color.DarkGray
+                    )
+
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = "${scoreItem.category.lowercase().replaceFirstChar { it.uppercaseChar() }} ",
                         fontSize = 14.sp,
                         color = Color.DarkGray
                     )
