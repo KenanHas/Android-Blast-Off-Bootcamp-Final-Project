@@ -4,7 +4,6 @@ import MemoryGameViewModel
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -51,7 +51,6 @@ fun GameScreen(navController: NavController, difficulty: String, userName: Strin
         Column (
             modifier = Modifier
                 .padding(innerPadding)
-                .background(color = Color.Black),
         ){
             GamePageUi(navController, difficulty, userName = userName)
         }
@@ -72,8 +71,7 @@ fun GamePageUi(navController: NavController, difficulty: String,
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
-            .padding(10.dp)
+            .padding(horizontal = 15.dp, vertical = 20.dp)
     ) {
 
         TopBarDesign(navController, "")
@@ -85,13 +83,13 @@ fun GamePageUi(navController: NavController, difficulty: String,
         ) {
             Text(
                 text = "Skor: $score",
-                color = Color.White,
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
             )
             Text(
                 text = "Süre: $timeLeft",
-                color = Color.White,
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -128,9 +126,9 @@ fun MemoryCard(card: CardItem, onCardClick: (CardItem) -> Unit) {
 
     val backgroundColor by animateColorAsState(
         targetValue = when {
-            card.isMatched -> Color(0xFF4CAF50) // Eşleştiğinde yeşil
-            card.isFaceUp -> Color(0xFF505050) // Açıkken gri
-            else -> Color(0xFFFF9800) // Kapalıyken koyu yeşil
+            card.isMatched -> MaterialTheme.colorScheme.secondary
+            card.isFaceUp -> Color(0xFF505050)
+            else -> MaterialTheme.colorScheme.primary
         },
         animationSpec = tween(durationMillis = 300)
     )
@@ -152,25 +150,23 @@ fun MemoryCard(card: CardItem, onCardClick: (CardItem) -> Unit) {
             contentAlignment = Alignment.Center
         ) {
             if (card.isFaceUp || card.isMatched) {
-                // Kart açık veya eşleşmişse sayıyı göster
                 Text(
                     text = card.number.toString(),
                     color = Color.White,
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.graphicsLayer {
-                        rotationY = rotation // Sayıyı ters çevirmemek için tekrar döndür
+                        rotationY = rotation
                     }
                 )
             } else {
-                // Kart kapalıysa soru işareti göster
                 Text(
                     text = "?",
                     color = Color.White,
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.graphicsLayer {
-                        rotationY = rotation // Soru işaretini ters çevirmemek için tekrar döndür
+                        rotationY = rotation
                     }
                 )
             }
@@ -178,7 +174,6 @@ fun MemoryCard(card: CardItem, onCardClick: (CardItem) -> Unit) {
     }
 }
 
-// Oyun sonu ekranı Composable'ı
 @Composable
 fun GameEndScreen(gameWon: Boolean, score: Int, userName: String, difficulty: String, time: Int, onPlayAgain: () -> Unit) {
 
@@ -192,28 +187,28 @@ fun GameEndScreen(gameWon: Boolean, score: Int, userName: String, difficulty: St
         if (gameWon) {
             Text(
                 text = "Tebrikler! Kazandınız!",
-                color = Color.White,
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 32.sp,
                 fontWeight = FontWeight.ExtraBold
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Skorunuz: $score",
-                color = Color.White,
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 24.sp
             )
             // Skor kaydetme seçeneği burada eklenebilir
         } else {
             Text(
                 text = "Süre bitti! Kaybettiniz.",
-                color = Color.White,
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 32.sp,
                 fontWeight = FontWeight.ExtraBold
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Skorunuz: $score",
-                color = Color.White,
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 24.sp
             )
         }

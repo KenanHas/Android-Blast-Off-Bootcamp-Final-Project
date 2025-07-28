@@ -51,7 +51,6 @@ fun ScoreScreen(navController: NavController) {
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .background(color = Color.Black),
         ) {
             ScorePageUi(
                 navController,

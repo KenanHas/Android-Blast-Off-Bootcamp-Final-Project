@@ -1,6 +1,5 @@
 package com.example.bootcampfinalproject.ui.screens.landing
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,7 +8,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.bootcampfinalproject.Screen
@@ -22,7 +20,6 @@ fun LandingScreen(navController: NavController){
         Column (modifier = Modifier
             .padding(innerPadding)
             .fillMaxSize()
-            .background(color = Color.Black)
         ){
             Greeting(
                 navController = navController,
@@ -42,9 +39,7 @@ fun Greeting(navController: NavController, modifier: Modifier = Modifier, title:
     ){
 
         Column {
-
             TopBarDesign(navController, title, false)
-
         }
 
         Column (

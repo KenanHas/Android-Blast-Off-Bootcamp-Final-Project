@@ -13,7 +13,7 @@ import com.example.bootcampfinalproject.ui.screens.settings.SettingsScreen
 import com.example.bootcampfinalproject.ui.screens.start.StartScreen
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(themeViewModel: ThemeViewModel) {
     val navController = rememberNavController()
 
     NavHost(
@@ -27,7 +27,7 @@ fun AppNavigation() {
             StartScreen(navController = navController)
         }
         composable(Screen.Settings.route) {
-            SettingsScreen(navController = navController)
+            SettingsScreen(navController = navController, themeViewModel)
         }
         composable(Screen.Score.route) {
             ScoreScreen(navController = navController)

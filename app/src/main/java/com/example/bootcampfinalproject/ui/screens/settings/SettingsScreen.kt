@@ -1,11 +1,9 @@
 package com.example.bootcampfinalproject.ui.screens.settings
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -16,33 +14,42 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.bootcampfinalproject.ThemeViewModel
 import com.example.bootcampfinalproject.data.local.database.LocalAppDatabase
+import com.example.bootcampfinalproject.ui.components.SegmentedSelectionButton
 import com.example.bootcampfinalproject.ui.components.StartPageButton
 import com.example.bootcampfinalproject.ui.components.TopBarDesign
-import com.example.bootcampfinalproject.ui.screens.start.SegmentedSelectionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @Composable
-fun SettingsScreen(navController: NavController){
+fun SettingsScreen(navController: NavController, themeViewModel: ThemeViewModel) {
 
-    Scaffold { innerPadding->
-        Column (
+    Scaffold { innerPadding ->
+        Column(
             modifier = Modifier
-            .padding(innerPadding)
-            .background(color = Color.Black),
-        ){
-            SettingsPageUi(navController, modifier = Modifier, title = "Ayarlar Sayfası")
+                .padding(innerPadding)
+        ) {
+            SettingsPageUi(
+                navController,
+                modifier = Modifier,
+                title = "Ayarlar Sayfası",
+                themeViewModel
+            )
         }
     }
 }
 
 @Composable
-fun SettingsPageUi(navController: NavController, modifier: Modifier = Modifier, title: String) {
+fun SettingsPageUi(
+    navController: NavController,
+    modifier: Modifier = Modifier,
+    title: String,
+    themeViewModel: ThemeViewModel
+) {
     var selectedMode by remember { mutableStateOf("LIGHT") }
     var open by remember { mutableStateOf("OPEN") }
 
@@ -50,11 +57,14 @@ fun SettingsPageUi(navController: NavController, modifier: Modifier = Modifier, 
     val userDao = db.scoreDao()
     val coroutineScope = rememberCoroutineScope()
 
-    Column (modifier = Modifier.fillMaxSize(),
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 15.dp, vertical = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
-    ){
-        Column (modifier = modifier.padding(top = 20.dp)){
+    ) {
+        Column(modifier = modifier) {
             TopBarDesign(navController, title, true)
         }
 
@@ -64,30 +74,28 @@ fun SettingsPageUi(navController: NavController, modifier: Modifier = Modifier, 
                 selectedOption = selectedMode,
                 onOptionSelected = { newOption ->
                     selectedMode = newOption
+                    if (selectedMode == "LIGHT")
+                        themeViewModel.toggleTheme(false)
+                    else
+                        themeViewModel.toggleTheme(true)
                 },
                 modifier = Modifier.fillMaxWidth(0.8f)// Ekranın %80'ini kaplasın
-            )
-
-            SegmentedSelectionButton(
-                options = listOf("OPEN", "CLOSE"),
-                selectedOption = open,
-                onOptionSelected = { newOption ->
-                    open = newOption
-                },
-                modifier = Modifier.fillMaxWidth(0.8f).offset(y = 15.dp) // Ekranın %80'ini kaplasın
             )
         }
 
         Column {
-            StartPageButton(modifier =  Modifier.padding(bottom = 20.dp), action = {
+            StartPageButton(modifier = Modifier.padding(bottom = 20.dp), action = {
                 coroutineScope.launch {
                     withContext(Dispatchers.IO) {
                         userDao.deleteAllScores()
                     }
                 }
             }, buttonText = "Skorları Temizle")
-            StartPageButton(modifier =  Modifier.padding(bottom = 20.dp), action = {navController.navigateUp()}, buttonText = "Anasayfaya Dön")
+            StartPageButton(
+                modifier = Modifier.padding(bottom = 20.dp),
+                action = { navController.navigateUp() },
+                buttonText = "Anasayfaya Dön"
+            )
         }
-
     }
 }
