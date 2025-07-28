@@ -1,6 +1,5 @@
-package com.example.bootcampfinalproject.ui.screens.game
+package com.example.bootcampfinalproject.ui.screens.game.view
 
-import MemoryGameViewModel
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -33,15 +32,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.bootcampfinalproject.CardItem
-import com.example.bootcampfinalproject.ScoreItem
+import com.example.bootcampfinalproject.R
 import com.example.bootcampfinalproject.data.local.database.LocalAppDatabase
 import com.example.bootcampfinalproject.ui.components.TopBarDesign
+import com.example.bootcampfinalproject.ui.screens.game.model.CardItem
+import com.example.bootcampfinalproject.ui.screens.game.viewModel.MemoryGameViewModel
+import com.example.bootcampfinalproject.ui.screens.score.model.ScoreItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -82,13 +84,13 @@ fun GamePageUi(navController: NavController, difficulty: String,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Skor: $score",
+                text = "${stringResource(id = R.string.score)}: $score",
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "Süre: $timeLeft",
+                text = "${stringResource(id = R.string.time)}: $timeLeft",
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
@@ -97,26 +99,23 @@ fun GamePageUi(navController: NavController, difficulty: String,
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Kartlar Grid'i
         if (!gameEnded) {
             LazyVerticalGrid(
-                columns = GridCells.Fixed(4), // Sütun sayısını dinamik yap
+                columns = GridCells.Fixed(4),
                 contentPadding = PaddingValues(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(viewModel.cards) { card -> // viewModel.cards kullanıyoruz
+                items(viewModel.cards) { card ->
                     MemoryCard(card = card, onCardClick = { viewModel.onCardClicked(it) })
                 }
             }
         } else {
-            // Oyun sonu mesajı
             GameEndScreen(gameWon = gameWon, score = score, userName = userName, difficulty = difficulty, time = totalTime,onPlayAgain = { viewModel.resetGame() })
         }
     }
 }
 
-// Tek bir kart Composable'ı
 @Composable
 fun MemoryCard(card: CardItem, onCardClick: (CardItem) -> Unit) {
     val rotation by animateFloatAsState(
@@ -135,7 +134,7 @@ fun MemoryCard(card: CardItem, onCardClick: (CardItem) -> Unit) {
 
     Card(
         modifier = Modifier
-            .aspectRatio(1f) // Kare kartlar için
+            .aspectRatio(1f)
             .graphicsLayer {
                 rotationY = rotation
                 cameraDistance = 8 * density
@@ -186,35 +185,34 @@ fun GameEndScreen(gameWon: Boolean, score: Int, userName: String, difficulty: St
     ) {
         if (gameWon) {
             Text(
-                text = "Tebrikler! Kazandınız!",
+                text = stringResource(id = R.string.cong_message),
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 32.sp,
                 fontWeight = FontWeight.ExtraBold
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Skorunuz: $score",
+                text = "${stringResource(id = R.string.your_score)}: $score",
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 24.sp
             )
-            // Skor kaydetme seçeneği burada eklenebilir
         } else {
             Text(
-                text = "Süre bitti! Kaybettiniz.",
+                text = stringResource(id = R.string.time_finish),
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 32.sp,
                 fontWeight = FontWeight.ExtraBold
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Skorunuz: $score",
+                text = "${stringResource(id = R.string.your_score)}: $score",
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 24.sp
             )
         }
         Spacer(modifier = Modifier.height(32.dp))
         Button(onClick = onPlayAgain) {
-            Text(text = "Tekrar Oyna")
+            Text(text = stringResource(id = R.string.play_again))
         }
         LaunchedEffect(Unit) {
             withContext(Dispatchers.IO) {

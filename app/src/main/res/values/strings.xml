@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">BootcampFinalProject</string>
+    <string name="score">Skor</string>
+    <string name="time">Süre</string>
+    <string name="cong_message">Tebrikler! Kazandınız!</string>
+    <string name="your_score">Skorunuz</string>
+    <string name="time_finish">Süre bitti! Kaybettiniz.</string>
+    <string name="play_again">Tekrar Oyna</string>
+    <string name="set_game">Oyun Kur</string>
+    <string name="start">Başla</string>
+    <string name="my_scores">Skorlarım</string>
+    <string name="settings">Ayarlar</string>
+    <string name="score_table">Skor Tablosu</string>
+    <string name="point">puan</string>
+    <string name="second">sn.</string>
+    <string name="settings_page">Ayarlar Sayfası</string>
+    <string name="light">Açık</string>
+    <string name="dark">Koyu</string>
+    <string name="delete_all_scores">Skorları Temizle</string>
+    <string name="return_landing_page">Anasayfaya Dön</string>
+    <string name="easy">Kolay</string>
+    <string name="hard">Zor</string>
+    <string name="user_name">Kullanıcı Adı</string>
+    <string name="user_name_empty_control_message">Lütfen Bir Kullanıcı Adı Giriniz.</string>
 </resources>

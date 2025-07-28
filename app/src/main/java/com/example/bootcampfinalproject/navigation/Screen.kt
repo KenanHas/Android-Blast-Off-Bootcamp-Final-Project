@@ -1,4 +1,4 @@
-package com.example.bootcampfinalproject
+package com.example.bootcampfinalproject.navigation
 
 // Örneğin, Screen.kt dosyanız
 sealed class Screen(val route: String) {

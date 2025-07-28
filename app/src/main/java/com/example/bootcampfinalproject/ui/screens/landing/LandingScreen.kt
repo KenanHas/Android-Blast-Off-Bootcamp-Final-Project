@@ -8,9 +8,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.bootcampfinalproject.Screen
+import com.example.bootcampfinalproject.R
+import com.example.bootcampfinalproject.navigation.Screen
 import com.example.bootcampfinalproject.ui.components.StartPageButton
 import com.example.bootcampfinalproject.ui.components.TopBarDesign
 
@@ -24,7 +26,7 @@ fun LandingScreen(navController: NavController){
             Greeting(
                 navController = navController,
                 modifier = Modifier.fillMaxSize(),
-                title = "Oyun Kur"
+                title = stringResource(id = R.string.set_game)
             )
         }
     }
@@ -54,7 +56,7 @@ fun Greeting(navController: NavController, modifier: Modifier = Modifier, title:
                 {
                     navController.navigate("start_screen")
                 },
-                buttonText = "Başla"
+                buttonText = stringResource(id = R.string.start)
             )
 
             StartPageButton(
@@ -62,7 +64,7 @@ fun Greeting(navController: NavController, modifier: Modifier = Modifier, title:
                 {
                     navController.navigate(Screen.Score.route)
                 },
-                buttonText = "Skorlarım"
+                buttonText = stringResource(id = R.string.my_scores)
             )
 
             StartPageButton(
@@ -70,7 +72,7 @@ fun Greeting(navController: NavController, modifier: Modifier = Modifier, title:
                 {
                     navController.navigate(Screen.Settings.route)
                 },
-                buttonText = "Ayarlar"
+                buttonText = stringResource(id = R.string.settings)
             )
         }
     }

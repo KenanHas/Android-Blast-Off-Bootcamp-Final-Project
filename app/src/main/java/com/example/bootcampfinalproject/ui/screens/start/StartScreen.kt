@@ -20,9 +20,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.bootcampfinalproject.Screen
+import com.example.bootcampfinalproject.R
+import com.example.bootcampfinalproject.navigation.Screen
 import com.example.bootcampfinalproject.ui.components.SegmentedSelectionButton
 import com.example.bootcampfinalproject.ui.components.StartPageButton
 import com.example.bootcampfinalproject.ui.components.TopBarDesign
@@ -34,14 +36,17 @@ fun StartScreen(navController: NavController){
             .fillMaxSize()
             .padding(innerPadding)
         ){
-            StartPageUi(navController, modifier = Modifier, "Oyun Kur")
+            StartPageUi(navController, modifier = Modifier, stringResource(id = R.string.set_game))
         }
     }
 }
 
 @Composable
 fun StartPageUi(navController: NavController, modifier: Modifier = Modifier, title: String){
-    var selectedDifficulty by remember { mutableStateOf("EASY") }
+    val easyMode = stringResource(id = R.string.easy)
+    val hardMode = stringResource(id = R.string.hard)
+    val message = stringResource(id = R.string.user_name_empty_control_message)
+    var selectedDifficulty by remember { mutableStateOf(easyMode) }
     var userName by remember { mutableStateOf("") }
     val context = LocalContext.current
 
@@ -72,7 +77,7 @@ fun StartPageUi(navController: NavController, modifier: Modifier = Modifier, tit
                 singleLine = true,
                 label = {
                     Text(
-                        text = "Kullanıcı Adı"
+                        text = stringResource(id = R.string.user_name)
                     )
                 }
             )
@@ -80,7 +85,7 @@ fun StartPageUi(navController: NavController, modifier: Modifier = Modifier, tit
             Spacer(modifier = Modifier.height(24.dp))
 
             SegmentedSelectionButton(
-                options = listOf("EASY", "HARD"),
+                options = listOf(easyMode, hardMode),
                 selectedOption = selectedDifficulty,
                 onOptionSelected = { newOption ->
                     selectedDifficulty = newOption
@@ -100,8 +105,8 @@ fun StartPageUi(navController: NavController, modifier: Modifier = Modifier, tit
                 if (userName.isNotEmpty())
                 navController.navigate(Screen.Game.createRoute(selectedDifficulty, userName))
                 else
-                    Toast.makeText(context, "Lütfen Bir Kullanıcı Adı Giriniz.", Toast.LENGTH_LONG).show()
-            }, buttonText = "Başla")
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            }, buttonText = stringResource(R.string.start))
         }
     }
 }

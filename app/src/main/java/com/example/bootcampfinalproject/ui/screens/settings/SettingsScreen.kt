@@ -7,15 +7,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.bootcampfinalproject.R
 import com.example.bootcampfinalproject.ThemeViewModel
 import com.example.bootcampfinalproject.data.local.database.LocalAppDatabase
 import com.example.bootcampfinalproject.ui.components.SegmentedSelectionButton
@@ -36,7 +36,7 @@ fun SettingsScreen(navController: NavController, themeViewModel: ThemeViewModel)
             SettingsPageUi(
                 navController,
                 modifier = Modifier,
-                title = "Ayarlar Sayfası",
+                title = stringResource(id = R.string.settings_page),
                 themeViewModel
             )
         }
@@ -50,8 +50,9 @@ fun SettingsPageUi(
     title: String,
     themeViewModel: ThemeViewModel
 ) {
-    var selectedMode by remember { mutableStateOf("LIGHT") }
-    var open by remember { mutableStateOf("OPEN") }
+    val selectedMode = remember { mutableStateOf("") }
+    selectedMode.value = stringResource(id = R.string.light)
+    val lightMode = stringResource(id = R.string.light)
 
     val db = LocalAppDatabase.current
     val userDao = db.scoreDao()
@@ -70,11 +71,11 @@ fun SettingsPageUi(
 
         Column {
             SegmentedSelectionButton(
-                options = listOf("LIGHT", "DARK"),
-                selectedOption = selectedMode,
+                options = listOf(stringResource(R.string.light), stringResource(id = R.string.dark)),
+                selectedOption = selectedMode.value,
                 onOptionSelected = { newOption ->
-                    selectedMode = newOption
-                    if (selectedMode == "LIGHT")
+                    selectedMode.value = newOption
+                    if (selectedMode.value == lightMode)
                         themeViewModel.toggleTheme(false)
                     else
                         themeViewModel.toggleTheme(true)
@@ -90,11 +91,11 @@ fun SettingsPageUi(
                         userDao.deleteAllScores()
                     }
                 }
-            }, buttonText = "Skorları Temizle")
+            }, buttonText = stringResource(id = R.string.delete_all_scores))
             StartPageButton(
                 modifier = Modifier.padding(bottom = 20.dp),
                 action = { navController.navigateUp() },
-                buttonText = "Anasayfaya Dön"
+                buttonText = stringResource(id = R.string.return_landing_page)
             )
         }
     }

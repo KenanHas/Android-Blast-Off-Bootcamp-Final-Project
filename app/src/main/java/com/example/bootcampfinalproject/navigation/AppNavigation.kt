@@ -1,4 +1,4 @@
-package com.example.bootcampfinalproject
+package com.example.bootcampfinalproject.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
@@ -6,9 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.bootcampfinalproject.ui.screens.game.GameScreen
+import com.example.bootcampfinalproject.ThemeViewModel
+import com.example.bootcampfinalproject.ui.screens.game.view.GameScreen
 import com.example.bootcampfinalproject.ui.screens.landing.LandingScreen
-import com.example.bootcampfinalproject.ui.screens.score.ScoreScreen
+import com.example.bootcampfinalproject.ui.screens.score.view.ScoreScreen
 import com.example.bootcampfinalproject.ui.screens.settings.SettingsScreen
 import com.example.bootcampfinalproject.ui.screens.start.StartScreen
 

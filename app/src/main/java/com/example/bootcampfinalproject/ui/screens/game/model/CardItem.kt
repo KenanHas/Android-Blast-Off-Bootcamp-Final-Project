@@ -1,4 +1,4 @@
-package com.example.bootcampfinalproject
+package com.example.bootcampfinalproject.ui.screens.game.model
 
 data class CardItem(
     val id: Int,

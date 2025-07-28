@@ -2,7 +2,7 @@ package com.example.bootcampfinalproject.data.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.bootcampfinalproject.ScoreItem
+import com.example.bootcampfinalproject.ui.screens.score.model.ScoreItem
 import com.example.bootcampfinalproject.data.local.dao.ScoreDao
 
 @Database(entities = [ScoreItem::class], version = 1)

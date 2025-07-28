@@ -1,21 +1,18 @@
-// MemoryGameViewModel.kt
+package com.example.bootcampfinalproject.ui.screens.game.viewModel
 
-// ViewModel Factory'ye ihtiyacımız olacak, bu yüzden bunun için bir sınıf oluşturalım.
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.bootcampfinalproject.CardItem
+import com.example.bootcampfinalproject.ui.screens.game.model.CardItem
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Random
 
-// ViewModel'i güncelliyoruz
 class MemoryGameViewModel(private val difficulty: String) : ViewModel() {
 
-    // Kart sayılarını zorluğa göre belirleyelim
     private val numCards: Int = if (difficulty == "HARD") 24 else 16
     private val numUniqueNumbers: Int = numCards / 2 // Her sayıdan 2 tane olacağı için
 
@@ -52,7 +49,6 @@ class MemoryGameViewModel(private val difficulty: String) : ViewModel() {
             }
         }
 
-        // Her sayıdan ikişer tane olacak şekilde kartları oluştur
         val generatedCards = mutableListOf<CardItem>()
         var idCounter = 0
         numbers.forEach { number ->
@@ -60,7 +56,6 @@ class MemoryGameViewModel(private val difficulty: String) : ViewModel() {
             generatedCards.add(CardItem(id = idCounter++, number = number))
         }
 
-        // Kartları karıştır
         generatedCards.shuffle()
         return generatedCards
     }
@@ -91,19 +86,19 @@ class MemoryGameViewModel(private val difficulty: String) : ViewModel() {
 
     fun onCardClicked(clickedCard: CardItem) {
         if (clickedCard.isFaceUp || clickedCard.isMatched || _selectedCards.size >= 2 || _gameEnded.value) {
-            return // Zaten açık, eşleşmiş, iki kart açık veya oyun bitmişse işlem yapma
+            return
         }
 
         val index = _cards.indexOfFirst { it.id == clickedCard.id }
         if (index != -1) {
-            // Kartı aç (animasyon burada yapılmaz, Composable'da yapılır)
+
             _cards[index] = _cards[index].copy(isFaceUp = true)
             _selectedCards.add(_cards[index])
 
             if (_selectedCards.size == 2) {
-                // İki kart açık olduğunda eşleşme kontrolü yap
+
                 viewModelScope.launch {
-                    delay(800) // Kısa bir bekleme (kartların görünmesi için)
+                    delay(800)
                     checkMatch()
                 }
             }
@@ -116,7 +111,7 @@ class MemoryGameViewModel(private val difficulty: String) : ViewModel() {
             val card2 = _selectedCards[1]
 
             if (card1.number == card2.number) {
-                // Eşleşti: Kartları eşleşmiş olarak işaretle ve yeşil renge dönüştür
+
                 val index1 = _cards.indexOfFirst { it.id == card1.id }
                 val index2 = _cards.indexOfFirst { it.id == card2.id }
                 if (index1 != -1 && index2 != -1) {
@@ -125,7 +120,7 @@ class MemoryGameViewModel(private val difficulty: String) : ViewModel() {
                 }
                 _score.value += 10 // Puan ekle
             } else {
-                // Eşleşmedi: Kartları kısa bir süre sonra kapat
+
                 val index1 = _cards.indexOfFirst { it.id == card1.id }
                 val index2 = _cards.indexOfFirst { it.id == card2.id }
                 if (index1 != -1 && index2 != -1) {
@@ -133,7 +128,7 @@ class MemoryGameViewModel(private val difficulty: String) : ViewModel() {
                     _cards[index2] = _cards[index2].copy(isFaceUp = false)
                 }
             }
-            _selectedCards.clear() // Açık kartları temizle
+            _selectedCards.clear()
             checkGameEnd()
         }
     }
@@ -145,13 +140,11 @@ class MemoryGameViewModel(private val difficulty: String) : ViewModel() {
         }
     }
 
-
     fun resetGame() {
         startGame()
         startTimer()
     }
 
-    // ViewModelFactory sınıfı, ViewModel'i parametre ile oluşturabilmek için
     class Factory(private val difficulty: String) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(MemoryGameViewModel::class.java)) {

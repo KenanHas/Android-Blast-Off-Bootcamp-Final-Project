@@ -1,4 +1,4 @@
-package com.example.bootcampfinalproject
+package com.example.bootcampfinalproject.ui.screens.score.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

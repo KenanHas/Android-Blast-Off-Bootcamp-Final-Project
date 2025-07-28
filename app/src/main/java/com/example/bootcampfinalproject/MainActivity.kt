@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.bootcampfinalproject.data.local.database.AppDatabase
 import com.example.bootcampfinalproject.data.local.database.LocalAppDatabase
+import com.example.bootcampfinalproject.navigation.AppNavigation
 import com.example.bootcampfinalproject.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {

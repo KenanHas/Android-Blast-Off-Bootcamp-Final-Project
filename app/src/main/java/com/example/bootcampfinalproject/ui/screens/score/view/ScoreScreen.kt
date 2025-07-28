@@ -1,4 +1,4 @@
-package com.example.bootcampfinalproject.ui.screens.score
+package com.example.bootcampfinalproject.ui.screens.score.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,14 +31,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.bootcampfinalproject.R
-import com.example.bootcampfinalproject.ScoreItem
 import com.example.bootcampfinalproject.data.local.database.LocalAppDatabase
 import com.example.bootcampfinalproject.ui.components.TopBarDesign
+import com.example.bootcampfinalproject.ui.screens.score.model.ScoreItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -52,9 +53,7 @@ fun ScoreScreen(navController: NavController) {
         ) {
             ScorePageUi(
                 navController,
-                modifier = Modifier,
-                titleFirst = "Skor",
-                titleSecond = "Tablosu"
+                modifier = Modifier
             )
         }
     }
@@ -64,8 +63,6 @@ fun ScoreScreen(navController: NavController) {
 fun ScorePageUi(
     navController: NavController,
     modifier: Modifier = Modifier,
-    titleFirst: String,
-    titleSecond: String
 ) {
     var scoreList = remember { mutableStateOf(emptyList<ScoreItem>()) }
     val db = LocalAppDatabase.current
@@ -91,7 +88,7 @@ fun ScorePageUi(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-            TopBarDesign(navController, "Skor Tablosu")
+            TopBarDesign(navController, stringResource(id = R.string.score_table))
 
             Spacer(modifier = Modifier.height(20.dp))
         }
@@ -180,7 +177,7 @@ fun ScoreItemUi(scoreItem: ScoreItem, index: Int, onScoreDeleted: suspend () -> 
 
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "${scoreItem.score} puan",
+                        text = "${scoreItem.score} ${stringResource(id = R.string.point)}",
                         fontSize = 14.sp,
                         color = Color.DarkGray
                     )
@@ -194,7 +191,7 @@ fun ScoreItemUi(scoreItem: ScoreItem, index: Int, onScoreDeleted: suspend () -> 
 
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "${scoreItem.time} sn.",
+                        text = "${scoreItem.time} ${stringResource(id = R.string.second)}",
                         fontSize = 14.sp,
                         color = Color.DarkGray
                     )

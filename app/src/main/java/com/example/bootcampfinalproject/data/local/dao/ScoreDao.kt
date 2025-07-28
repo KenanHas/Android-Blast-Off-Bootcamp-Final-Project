@@ -3,7 +3,7 @@ package com.example.bootcampfinalproject.data.local.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.bootcampfinalproject.ScoreItem
+import com.example.bootcampfinalproject.ui.screens.score.model.ScoreItem
 
 @Dao
 interface ScoreDao {
